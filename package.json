@@ -1,11 +1,12 @@
 {
-  "name": "chat-devmedia",
+  "name": "chat_para_condominio",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
     "nodemon": "^2.0.16"
   },
   "dependencies": {
+    "express": "^4.18.1",
     "socket.io": "^4.5.0"
   }
 }
