@@ -1,7 +1,7 @@
 const app = require('http').createServer(resposta)
 const fs = require('fs')
 const io = require('socket.io')(app);
-const usuario = []
+let usuario = []
 
 
 const PORT = 8080
@@ -19,7 +19,10 @@ function resposta (req, res) {
         function (err, data) {
              if (err) {
                   res.writeHead(404);
-                  return res.end('Vish! deu ruim')
+                  console.log(`Algo aconteceu. Veja aí! => {
+                      ${err}
+                  }`)
+                  return res.end(`Vish! deu ruim`)
              }
 
              res.writeHead(200);
@@ -47,6 +50,12 @@ io.on("connection", function(socket){
         io.sockets.emit("atualizar mensagens", mensagem_enviada);
         callback();
     });
+
+    socket.on("disconnect", function(){
+        delete usuarios[socket.apelido];
+        io.sockets.emit("atualizar usuarios", Object.keys(usuarios));
+        io.sockets.emit("atualizar mensagens", "[ " + pegarDataAtual() + " ] " + socket.apelido + " saiu da sala");
+      });
 });
 
 
@@ -64,27 +73,3 @@ function pegarDataAtual(){
     let dataFormatada = dia + "/" + mes + "/" + ano + " " + hora + ":" + minuto + ":" + segundo;
     return dataFormatada;
 }
-
-
-// talvez tenha que por isso no script do html
-
-// Login para o chat
-$("form#login").submit(function(e){
-
-    e.preventDefault();
-
-    socket.emit("entrar", 
-    $(this).find("#apelido").val(), 
-    function(valido){
-
-        if(valido){
-             $("#acesso_usuario").hide();
-             $("#sala_chat").show();
-        }else{
-             $("#acesso_usuario").val("");
-             alert("Nome já utilizado nesta sala");
-        }
-        
-    });
-
-});

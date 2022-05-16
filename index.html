@@ -7,16 +7,12 @@
     <body>
         <div id='acesso_usuario'>
             <form id=’login’>
-                <input type='text' placeholder='Insira seu apelido' name='apelido' id='apelido' />
+                <input type='text' placeholder='Me diga seu nome!' name='apelido' id='apelido' />
                 <input type='submit' value='Entrar' />
             </form>
        </div>
         <div id="sala_chat">
             <div id="historico_mensagens"></div>
-            <div id="historico_mensagens"></div>
-            <select multiple="multiple" id='lista_usuarios'>
-                <option value=''>Todos</option>
-            </select>
             <form id="chat">
                 <input type='text' id='texto_mensagem' name='texto_mensagem' />
                 <input type='submit' value='Enviar mensagem' />
@@ -45,6 +41,25 @@
                 var mensagem_formatada = $("<p />").text(mensagem);
                     $("#historico_mensagens").append(mensagem_formatada);
             });
+            $("form#login").submit(function(e){
+
+                e.preventDefault();
+
+                socket.emit("entrar", 
+                $(this).find("#apelido").val(), 
+                function(valido){
+
+                    if(valido){
+                        $("#acesso_usuario").hide();
+                        $("#sala_chat").show();
+                    }else{
+                        $("#acesso_usuario").val("");
+                        alert("Nome já utilizado nesta sala");
+                    }
+                    
+                });
+
+                });
 
         </script>
     </body>
