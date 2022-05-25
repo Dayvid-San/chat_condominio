@@ -1,13 +1,26 @@
 const app = require('http').createServer(resposta)
 const fs = require('fs')
 const io = require('socket.io')(app);
-let usuario = []
+const usuarios = []
 
 
-const PORT = 8080
-app. listen(PORT, () => {
-    console.log('Rodando na porta ' + PORT)
-})
+// Pegando as datas
+function pegarDataAtual(){
+    let dataAtual = new Date();
+    let dia = (dataAtual.getDate()<10 ? '0' : '') + dataAtual.getDate();
+    let mes = ((dataAtual.getMonth() + 1)<10 ? '0' : '') + (dataAtual.getMonth() + 1);
+    let ano = dataAtual.getFullYear();
+    let hora = (dataAtual.getHours()<10 ? '0' : '') + dataAtual.getHours();
+    let minuto = (dataAtual.getMinutes()<10 ? '0' : '') + dataAtual.getMinutes();
+    let segundo = (dataAtual.getSeconds()<10 ? '0' : '') + dataAtual.getSeconds();
+  
+    let dataFormatada = dia + "/" + mes + "/" + ano + " " + hora + ":" + minuto + ":" + segundo;
+    return dataFormatada;
+}
+
+
+
+
 function resposta (req, res) {
     var arquivo = "";
     if(req.url == "/"){
@@ -18,11 +31,10 @@ function resposta (req, res) {
     fs.readFile(arquivo,
         function (err, data) {
              if (err) {
-                  res.writeHead(404);
-                  console.log(`Algo aconteceu. Veja aí! => {
-                      ${err}
-                  }`)
-                  return res.end(`Vish! deu ruim`)
+                res.writeHead(404);
+                console.log(`Vish! Deu ruim! Veja aí! =>`)
+                console.error(err)
+                return res.end(`Algo de errado aconteceu.`)
              }
 
              res.writeHead(200);
@@ -31,6 +43,8 @@ function resposta (req, res) {
     );
 }
 
+
+// Conexão do chat em tempo real
 io.on("connection", function(socket){
 
     // Verificação de usuários
@@ -61,15 +75,10 @@ io.on("connection", function(socket){
 
 
 
-function pegarDataAtual(){
-    let dataAtual = new Date();
-    let dia = (dataAtual.getDate()<10 ? '0' : '') + dataAtual.getDate();
-    let mes = ((dataAtual.getMonth() + 1)<10 ? '0' : '') + (dataAtual.getMonth() + 1);
-    let ano = dataAtual.getFullYear();
-    let hora = (dataAtual.getHours()<10 ? '0' : '') + dataAtual.getHours();
-    let minuto = (dataAtual.getMinutes()<10 ? '0' : '') + dataAtual.getMinutes();
-    let segundo = (dataAtual.getSeconds()<10 ? '0' : '') + dataAtual.getSeconds();
-  
-    let dataFormatada = dia + "/" + mes + "/" + ano + " " + hora + ":" + minuto + ":" + segundo;
-    return dataFormatada;
-}
+
+
+// Ligando
+const PORT = 8080
+app. listen(PORT, () => {
+    console.log('Rodando na porta ' + PORT)
+})

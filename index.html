@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Chat para condominio</title>
      <link rel="stylesheet" type="text/css" href="./css/style.css" />
 </head>
     <body>
-        <div id='acesso_usuario'>
-            <form id=’login’>
-                <input type='text' placeholder='Me diga seu nome!' name='apelido' id='apelido' />
-                <input type='submit' value='Entrar' />
-            </form>
-       </div>
         <div id="sala_chat">
-            <div id="historico_mensagens"></div>
+            <div class="historico_mensagens">
+                <div id="chat_bot">
+                    <br>
+                    <legend class="apresentacao">Olá! Eu sou o Baymax. Um robo e o porteiro deste predio.<br>Antes de chamar o morador, vou te pedir algumas informações para o atendimento.</legend><br>
+                    <legend class="apresentacao">Qual  o seu nome?</legend>
+                    <input type="text" class="apresentacao-robo" placeholder="Digite o seu nome aqui"><br><br>
+                    <legend class="apresentacao">Com quem deseja falar?</legend>
+                    <input type="text" class="apresentacao-robo" placeholder="Digite o nome da pessoa aqui"><br>
+                    <button id="chamar-morador">Chamar</button>
+                </div>
+            </div>
             <form id="chat">
                 <input type='text' id='texto_mensagem' name='texto_mensagem' />
                 <input type='submit' value='Enviar mensagem' />
@@ -20,6 +27,7 @@
         </div>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script src="/conversationBOT.js"></script>
         <script type="text/javascript">
             let socket = io.connect();
 
@@ -39,7 +47,7 @@
 
             socket.on("atualizar mensagens", function(mensagem){
                 var mensagem_formatada = $("<p />").text(mensagem);
-                    $("#historico_mensagens").append(mensagem_formatada);
+                    $(".historico_mensagens").append(mensagem_formatada);
             });
             $("form#login").submit(function(e){
 
