@@ -14,11 +14,12 @@
                     <br>
                     <legend class="apresentacao">Olá! Eu sou o Baymax. Um robo e o porteiro deste predio.<br>Antes de chamar o morador, vou te pedir algumas informações para o atendimento.</legend><br>
                     <legend class="apresentacao">Qual  o seu nome?</legend>
-                    <input type="text" class="apresentacao-robo" placeholder="Digite o seu nome aqui"><br><br>
+                    <input type="text" id="visitante" class="apresentacao-robo" placeholder="Digite o seu nome aqui"><br><br>
                     <legend class="apresentacao">Com quem deseja falar?</legend>
-                    <input type="text" class="apresentacao-robo" placeholder="Digite o nome da pessoa aqui"><br>
+                    <input type="text" id="moradorSolicitado" class="apresentacao-robo" placeholder="Digite o nome da pessoa aqui"><br>
                     <button id="chamar-morador">Chamar</button>
                 </div>
+                <p id="respostaBotSaudacao"></p>
             </div>
             <form id="chat">
                 <input type='text' id='texto_mensagem' name='texto_mensagem' />
